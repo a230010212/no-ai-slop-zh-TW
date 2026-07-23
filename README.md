@@ -1,64 +1,86 @@
-# No AI slop
+# No AI Slop 繁體中文版
 
-This skill removes 20+ patterns of AI slop from your writing and it can also help you detect slop as well.
+這個 Agent Skill 會刪除繁體中文寫作中 20+ 種常見的 AI 腔，同時保留作者原本的語氣、節奏、立場與不完美。它也能只做偵測，逐項指出問題，不改寫原文，也不臆測文章是不是由 AI 寫成。
 
-## What it catches
+本專案改編自 [petergyang/no-ai-slop](https://github.com/petergyang/no-ai-slop)，依 MIT 授權發布。繁中版不是逐字翻譯，而是以繁體中文（台灣）常見的句型、用語與標點重新設計規則與例句。上游版本與改編範圍請見 [UPSTREAM.md](UPSTREAM.md)。
 
-The patterns it detects include:
+## 與原版的差異
 
-| Pattern | Smells like |
-|---------|-------------|
-| Binary contrasts | "It's not X. It's Y." |
-| Throat-clearing openers | "Here's the thing..." |
-| Faux-insight setups | "What nobody tells you..." |
-| Colon reveals | "The best part: it learns." |
-| Superficial analysis | "...highlighting the team's commitment" |
-| Importance puffery | "marks a pivotal moment" |
-| Weasel attribution | "experts agree," "studies show" |
-| Fake-strong verbs | "serves as a centralized hub" |
-| Synonym cycling | the agent, then the assistant, then the tool |
-| Negative listing | "Not a X. Not a Y. A Z." |
-| Dramatic fragmentation | "That's it. That's the whole thing." |
+- 預設輸出繁體中文與台灣常用詞，但會優先保留作者已建立的地區語感。
+- 把英文特有的 `-ing` 尾句、em dash 等規則，改寫成中文常見的「彰顯／凸顯」空泛分析、破折號濫用、連接詞堆疊與機械排比。
+- 加入中文常見的公文腔、名詞化、虛假全面性、讀者代言與無證據因果等模式。
+- Skill 名稱改為 `no-ai-slop-zh-tw`，避免與英文原版衝突。
 
-It also enforces the fundamentals that make writing good: Lead with the point when it helps, use active voice, untangle hard-to-follow sentences, and prefer concrete numbers over abstractions.
+## 能抓到什麼
 
-## Install
+| 模式 | 常見寫法 |
+|---|---|
+| 二分轉折模板 | 「真正的問題不是 X，而是 Y。」 |
+| 清喉嚨式開場 | 「值得一提的是……」 |
+| 假洞見鋪陳 | 「多數人都忽略了……」 |
+| 冒號揭曉 | 「真正的關鍵是：它會自己學習。」 |
+| 空泛分析 | 「彰顯團隊對創新的承諾」 |
+| 重要性膨脹 | 「寫下關鍵里程碑」 |
+| 模糊歸因 | 「研究顯示」「專家普遍認為」 |
+| 假強動詞 | 「作為統一管理的核心樞紐」 |
+| 同義詞輪替 | 同一個東西輪流叫「代理、助理、工具」 |
+| 否定排比 | 「不是 X，不是 Y，而是 Z。」 |
+| 戲劇化碎句 | 「就這樣。真的。沒有別的。」 |
+| 機械排比 | 「更快、更準、更聰明」 |
+| 連接詞堆疊 | 每段固定以「此外／同時／然而」開頭 |
+| 虛假全面性 | 「無論新手、專家或企業團隊，都能……」 |
+| 公文腔與名詞化 | 「進行評估」「做出決策」「實現提升」 |
+| 無證據因果 | 「進而提升效率並創造更高價值」 |
 
-Paste this into Claude Code, Codex, or your favorite AI harness:
+它也會執行基本編修原則：必要時先講重點、使用直接動詞、拆開難懂句子、保留具體細節，並避免為了「看起來更順」而磨掉作者的個性。
 
-"Install this skill globally: [https://github.com/petergyang/no-ai-slop](https://github.com/petergyang/no-ai-slop)"
+## 安裝
 
-## Use
+先把這個版本推到你的 GitHub fork，再把下列文字貼到 Claude Code、Codex 或其他支援 Agent Skills 的工具中；請把帳號名稱換成你自己的：
 
-**1. Edit a draft.** Paste it and invoke the skill:
-
-```
-/no-ai-slop
-
-[your draft]
-```
-
-You get back the edited draft plus a short What changed section. The skill makes the minimum effective edit, then checks its own work against [eval.md](eval.md).
-
-**2. Detect slop.** Ask whether a piece reads as AI:
-
-```
-/no-ai-slop is this AI slop?
-
-[the text]
+```text
+請全域安裝這個 skill：https://github.com/YOUR_GITHUB_USERNAME/no-ai-slop-zh-TW
 ```
 
-You get every pattern it found each with the quoted line.
+建立 fork、套用 patch 與推送分支的步驟請見 [FORK_GUIDE.md](FORK_GUIDE.md)。
 
-## Files
+## 使用方式
 
-1. `SKILL.md`: The editing rules and workflow.
-2. `eval.md`: Pass/fail checks the skill runs on its own edits.
+### 1. 編修草稿
 
-## Who made this
+貼上草稿並呼叫 skill：
 
-This is one skill from my personal AI operating system. The full library, including my courses and workflows, lives at [Behind the Craft](https://behindthecraft.com).
+```text
+/no-ai-slop-zh-tw
 
-## License
+[你的草稿]
+```
 
-MIT
+回覆會包含完整編修稿，以及簡短的「修改重點」。Skill 只做必要修改，完成後會依 [eval.md](eval.md) 自我檢查。
+
+### 2. 只偵測 AI 腔
+
+```text
+/no-ai-slop-zh-tw 只檢查 AI 腔，不要改寫
+
+[要檢查的文字]
+```
+
+回覆會列出每一種發現的模式、對應原句與簡短修正方向。它不會打分數，也不會宣稱文章一定是由 AI 寫成。
+
+## 檔案
+
+1. `SKILL.md`：繁體中文編修規則與工作流程。
+2. `eval.md`：編修完成後的通過／未通過檢查清單。
+3. `examples.md`：編修、偵測與「不該亂改」的範例。
+4. `agents/openai.yaml`：OpenAI 介面顯示名稱與預設提示。
+5. `UPSTREAM.md`：上游版本、授權與在地化說明。
+6. `FORK_GUIDE.md`：建立 GitHub fork 與套用 patch 的操作步驟。
+
+## 原作者與改編
+
+英文原版由 [Peter Yang](https://github.com/petergyang) 建立，完整作品與課程收錄於 [Behind the Craft](https://behindthecraft.com)。本繁中版保留原始 MIT 版權聲明，並針對繁體中文寫作語境做在地化改編。
+
+## 授權
+
+MIT。詳見 [LICENSE](LICENSE)。
